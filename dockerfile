@@ -4,7 +4,7 @@ LABEL maintainer="brad@foghornconsulting.com"
 ADD rootfs.tar.xz /
 
 COPY requirements.txt /tmp/requirements.txt
-RUN apk add --no-cache py2-pip \
+RUN apk add --no-cache py2-pip curl \
     && pip install --upgrade pip \
     && pip install -r /tmp/requirements.txt
 
