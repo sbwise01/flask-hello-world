@@ -1,10 +1,8 @@
-FROM scratch
+FROM alpine:3
 LABEL maintainer="brad@foghornconsulting.com"
 
-ADD rootfs.tar.xz /
-
 COPY requirements.txt /tmp/requirements.txt
-RUN apk add --no-cache py2-pip curl \
+RUN apk add --no-cache py3-pip curl \
     && pip install --upgrade pip \
     && pip install -r /tmp/requirements.txt
 
@@ -19,4 +17,4 @@ EXPOSE 5000
 RUN rm -rf /.wh /root/.cache /var/cache /tmp/requirements.txt
 
 WORKDIR /app
-CMD ["/usr/bin/flask", "run", "--reload", "-h", " 0.0.0.0"]
+CMD ["/usr/bin/flask", "run", "--reload", "-h", "0.0.0.0"]
