@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskhelloworld
+  namespace: app
+  labels:
+    app: flaskhelloworld
+    service: flaskhelloworld
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: flaskhelloworld
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flaskhelloworld
+  namespace: app
+  labels:
+    account: flaskhelloworld
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskhelloworld
+  namespace: app
+  labels:
+    app: flaskhelloworld
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flaskhelloworld
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: flaskhelloworld
+        version: v1
+    spec:
+      serviceAccountName: flaskhelloworld
+      containers:
+      - name: flaskhelloworld
+        env:
+        - name: APP_NAME
+          value: app/flaskhelloworldv1
+        image: sbwise/flaskhelloworld:0.2.4
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
